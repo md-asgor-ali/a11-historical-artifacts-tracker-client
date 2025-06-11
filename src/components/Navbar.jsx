@@ -1,10 +1,15 @@
-import React, { useContext } from 'react';
-import { Link, NavLink } from 'react-router';
-import { AuthContext } from '../provider/AuthProvider';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../provider/AuthProvider';
+import logo from "../assets/logo.jpg";
+import { LogOut, Heart, Star } from 'lucide-react';
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef(null);
+  const location = useLocation();
 
   const handleLogOut = () => {
     logOut()
@@ -27,11 +32,27 @@ const Navbar = () => {
       });
   };
 
+  // Close menu on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Close menu on route change
+  useEffect(() => {
+    setUserMenuOpen(false);
+  }, [location]);
+
   const navLinkStyle = ({ isActive }) =>
     `px-4 py-2 font-semibold rounded-md transition-all duration-200 ${
       isActive
-        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
-        : 'text-gray-700 hover:bg-blue-100 hover:text-blue-600'
+        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+        : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700'
     }`;
 
   const navLinks = (
@@ -50,10 +71,10 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar bg-white shadow-md sticky top-0 z-50">
+    <div className="navbar bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 shadow-md sticky top-0 z-50">
       <div className="navbar-start">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+        <div className="dropdown lg:hidden">
+          <label tabIndex={0} className="btn btn-ghost">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -63,16 +84,17 @@ const Navbar = () => {
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-          </div>
+          </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-60 z-10"
+            className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-white rounded-box w-60 z-10"
           >
             {navLinks}
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost text-xl font-extrabold text-blue-700">
-          🏺 Historical Artifacts Tracker
+        <Link to="/" className="btn btn-ghost text-xl font-extrabold text-purple-800 flex items-center gap-2">
+          <img src={logo} alt="Logo" className="w-10 h-10 rounded-full" />
+          Historical Artifacts Tracker
         </Link>
       </div>
 
@@ -82,28 +104,44 @@ const Navbar = () => {
 
       <div className="navbar-end">
         {!user ? (
-          <Link to="/login" className="btn btn-primary">Login</Link>
+          <Link to="/login" className="btn bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold">
+            Login
+          </Link>
         ) : (
-          <div className="dropdown dropdown-end">
-            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-              <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                <img src={user.photoURL || 'https://i.ibb.co/2nS7tQc/default-avatar.png'} alt="User Avatar" />
+          <div className="relative" ref={userMenuRef}>
+            <button onClick={() => setUserMenuOpen(!userMenuOpen)} className="btn btn-ghost btn-circle avatar">
+              <div className="w-10 rounded-full ring ring-purple-400 ring-offset-base-100 ring-offset-2">
+                <img
+                  src={user.photoURL || 'https://i.ibb.co/2nS7tQc/default-avatar.png'}
+                  alt="User Avatar"
+                />
               </div>
-            </div>
-            <ul
-              tabIndex={0}
-              className="mt-3 p-3 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 z-10"
-            >
-              <li className="text-center font-bold text-blue-700">{user.displayName || 'User'}</li>
-              <div className="divider my-1" />
-              <li><NavLink to="/my-artifacts" className={navLinkStyle}>My Artifacts</NavLink></li>
-              <li><NavLink to="/liked-artifacts" className={navLinkStyle}>Liked Artifacts</NavLink></li>
-              <li>
-                <button onClick={handleLogOut} className="btn btn-sm btn-error text-white mt-2 w-full">
-                  Logout
-                </button>
-              </li>
-            </ul>
+            </button>
+
+            {userMenuOpen && (
+              <ul className="absolute right-0 top-12 p-4 bg-white text-gray-800 rounded-lg shadow-lg w-56 space-y-2 z-50 animate-fade-in">
+                <li className="font-bold text-center text-purple-600">{user.displayName || 'User'}</li>
+                <hr />
+                <li>
+                  <NavLink to="/my-artifacts" className="flex items-center gap-2">
+                    <Star size={16} /> My Artifacts
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/liked-artifacts" className="flex items-center gap-2">
+                    <Heart size={16} /> Liked Artifacts
+                  </NavLink>
+                </li>
+                <li>
+                  <button
+                    onClick={handleLogOut}
+                    className="flex items-center gap-2 text-red-500 hover:text-red-600 w-full"
+                  >
+                    <LogOut size={16} /> Logout
+                  </button>
+                </li>
+              </ul>
+            )}
           </div>
         )}
       </div>
