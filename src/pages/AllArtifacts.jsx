@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
+import Loading from '../components/Loading';
 
 const AllArtifacts = () => {
   const [artifacts, setArtifacts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
       .get('http://localhost:5000/artifacts') // Make sure this route exists in your backend
       .then((res) => {
         setArtifacts(res.data);
+        setLoading(false);
       })
       .catch((err) => {
         console.error('Failed to fetch artifacts:', err);
+        setLoading(false);
       });
   }, []);
+
+   if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
