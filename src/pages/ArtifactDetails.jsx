@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import axios from "axios";
 import { AuthContext } from "../provider/AuthProvider";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const ArtifactDetails = () => {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
+
   const [artifact, setArtifact] = useState(null);
   const [likeCount, setLikeCount] = useState(0);
   const [hasLiked, setHasLiked] = useState(false);
@@ -19,7 +21,7 @@ const ArtifactDetails = () => {
 
   const fetchArtifact = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/artifacts/${id}`);
+      const res = await axiosSecure.get(`/artifacts/${id}`);
       const data = res.data;
       setArtifact(data);
       setLikeCount(data.likeCount || 0);
@@ -44,7 +46,7 @@ const ArtifactDetails = () => {
     }
 
     try {
-      const res = await axios.patch(`http://localhost:5000/artifacts/${id}/like`, {
+      const res = await axiosSecure.patch(`/artifacts/${id}/like`, {
         userEmail: user.email,
       });
 

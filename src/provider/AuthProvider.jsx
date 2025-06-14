@@ -13,9 +13,7 @@ import {
 export const AuthContext = createContext();
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-provider.setCustomParameters({
-  prompt: "select_account", // 👈 this forces the Google account chooser
-});
+provider.setCustomParameters({ prompt: "select_account" });
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -37,14 +35,19 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+
+      if (currentUser) {
+        const token = await currentUser.getIdToken();
+        localStorage.setItem("firebase-token", token);
+      } else {
+        localStorage.removeItem("firebase-token");
+      }
     });
 
-    return () => {
-      unsubscribe(); 
-    };
-  }, []); 
+    return () => unsubscribe();
+  }, []);
 
   const userInfo = {
     user,
@@ -56,9 +59,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={userInfo}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={userInfo}>{children}</AuthContext.Provider>
   );
 };
 

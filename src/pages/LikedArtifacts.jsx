@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../provider/AuthProvider";
-import axios from "axios";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
 
 const LikedArtifacts = () => {
   const { user } = useContext(AuthContext);
   const [likedArtifacts, setLikedArtifacts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,19 +18,21 @@ const LikedArtifacts = () => {
 
     const fetchLikedArtifacts = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5000/artifacts?likedBy=${user.email}`
-        );
+        // Fetch only artifacts liked by the user
+        const res = await axiosSecure.get(`/artifacts?likedBy=${user.email}`);
         setLikedArtifacts(res.data || []);
       } catch (error) {
-        console.error("Failed to fetch liked artifacts:", error);
+        console.error("❌ Failed to fetch liked artifacts:", error);
+        if (error.response?.status === 403 || error.response?.status === 401) {
+          navigate("/unauthorized");
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchLikedArtifacts();
-  }, [user, navigate]);
+  }, [user, axiosSecure, navigate]);
 
   if (loading) return <div className="text-center mt-10">Loading...</div>;
 

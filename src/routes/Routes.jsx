@@ -68,9 +68,7 @@ const router = createBrowserRouter([
       {
         path: "my-artifacts",
         element: (
-          <PrivateRoute>
-            <MyArtifacts />
-          </PrivateRoute>
+          <MyArtifacts />
         ),
       },
       {

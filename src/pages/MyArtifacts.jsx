@@ -1,25 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../provider/AuthProvider";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const MyArtifacts = () => {
+  const axiosSecure = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const [myArtifacts, setMyArtifacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) return;
-    console.log("Logged in user's email:", user.email); // Debug line
-    axios
-      .get(`http://localhost:5000/artifacts?adderEmail=${user.email}`)
+    if (!user?.email) return;
+
+    axiosSecure
+      .get(`/artifacts?adderEmail=${user.email}`)
       .then((res) => setMyArtifacts(res.data || []))
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
-    
-  }, [user]);
+  }, [user, axiosSecure]);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -31,11 +31,11 @@ const MyArtifacts = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:5000/artifacts/${id}`);
+          await axiosSecure.delete(`/artifacts/${id}`);
           Swal.fire("Deleted!", "Artifact has been removed.", "success");
-          setMyArtifacts(myArtifacts.filter((a) => a._id !== id));
+          setMyArtifacts((prev) => prev.filter((a) => a._id !== id));
           navigate("/all-artifacts");
-        } catch {
+        } catch (err) {
           Swal.fire("Error", "Failed to delete artifact", "error");
         }
       }
@@ -61,8 +61,12 @@ const MyArtifacts = () => {
                 className="w-full h-48 object-cover rounded"
               />
               <h3 className="text-xl font-semibold mt-2">{artifact.name}</h3>
-              <p><strong>Type:</strong> {artifact.type}</p>
-              <p><strong>Likes:</strong> {artifact.likeCount || 0}</p>
+              <p>
+                <strong>Type:</strong> {artifact.type}
+              </p>
+              <p>
+                <strong>Likes:</strong> {artifact.likeCount || 0}
+              </p>
               <div className="flex gap-3 mt-4">
                 <button
                   onClick={() => navigate(`/update-artifact/${artifact._id}`)}

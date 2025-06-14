@@ -8,8 +8,13 @@ const AllArtifacts = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get('http://localhost:5000/artifacts') // Make sure this route exists in your backend
+      .get('http://localhost:5000/artifacts',{
+          headers: {
+      Authorization: `Bearer ${token}`,
+          }
+      }) // Make sure this route exists in your backend
       .then((res) => {
         setArtifacts(res.data);
         setLoading(false);

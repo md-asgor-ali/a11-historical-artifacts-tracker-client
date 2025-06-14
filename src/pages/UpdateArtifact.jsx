@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import axios from "axios";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const UpdateArtifact = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
+
   const [artifact, setArtifact] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/artifacts/${id}`)
+    axiosSecure
+      .get(`/artifacts/${id}`)
       .then((res) => setArtifact(res.data))
       .catch((err) => console.error("Failed to load artifact", err));
-  }, [id]);
+  }, [id, axiosSecure]);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -30,7 +33,7 @@ const UpdateArtifact = () => {
     };
 
     try {
-      await axios.put(`http://localhost:5000/artifacts/${id}`, updatedData);
+      await axiosSecure.put(`/artifacts/${id}`, updatedData);
       Swal.fire("Success", "Artifact updated successfully", "success");
       navigate("/my-artifacts");
     } catch (err) {

@@ -11,7 +11,7 @@ const FeaturedArtifacts = () => {
     axios.get('http://localhost:5000/artifacts/featured')
       .then(res => {
         setArtifacts(res.data);
-        console.log()
+        console.log('Fetched featured artifacts:', res.data);
         setLoading(false);
       })
       .catch(err => {
