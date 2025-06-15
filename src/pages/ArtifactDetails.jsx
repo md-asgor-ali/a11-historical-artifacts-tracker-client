@@ -12,6 +12,7 @@ const ArtifactDetails = () => {
   const [artifact, setArtifact] = useState(null);
   const [likeCount, setLikeCount] = useState(0);
   const [hasLiked, setHasLiked] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user) {
@@ -26,8 +27,10 @@ const ArtifactDetails = () => {
       setArtifact(data);
       setLikeCount(data.likeCount || 0);
       setHasLiked(data.likedBy?.includes(user?.email));
+      setLoading(false);
     } catch (err) {
       console.error("Error fetching artifact:", err);
+      setLoading(false);
     }
   };
 
@@ -37,29 +40,24 @@ const ArtifactDetails = () => {
     }
   }, [id, user?.email]);
 
-  const handleLike = async () => {
+  const handleLikeToggle = async () => {
     if (!user?.email) return;
-
-    if (hasLiked) {
-      alert("You already liked this artifact.");
-      return;
-    }
 
     try {
       const res = await axiosSecure.patch(`/artifacts/${id}/like`, {
         userEmail: user.email,
       });
 
-      if (res.data.modifiedCount > 0 || res.data.acknowledged) {
-        setLikeCount((prev) => prev + 1);
-        setHasLiked(true);
+      if (res.data.modifiedCount > 0) {
+        setHasLiked(res.data.hasLiked);
+        setLikeCount(res.data.likeCount);
       }
     } catch (error) {
-      console.error("Error updating like count:", error);
+      console.error("Error toggling like:", error);
     }
   };
 
-  if (!artifact) return <div>Loading artifact...</div>;
+  if (loading || !artifact) return <div className="text-center py-10">Loading artifact...</div>;
 
   return (
     <div className="max-w-2xl mx-auto p-6 shadow-lg rounded-lg bg-white mt-10">
@@ -77,19 +75,18 @@ const ArtifactDetails = () => {
       <p><strong>Context:</strong> {artifact.context}</p>
       <p><strong>Description:</strong> {artifact.shortDesc}</p>
 
-      <div className="mt-4 flex items-center gap-4">
+      <div className="mt-6 flex items-center gap-4">
         <button
-          onClick={handleLike}
-          disabled={hasLiked}
-          className={`px-4 py-2 rounded transition ${
+          onClick={handleLikeToggle}
+          className={`px-5 py-2 rounded font-medium shadow transition ${
             hasLiked
-              ? "bg-gray-400 cursor-not-allowed"
+              ? "bg-red-500 text-white hover:bg-red-600"
               : "bg-blue-500 text-white hover:bg-blue-600"
           }`}
         >
-          {hasLiked ? "Liked" : "Like"}
+          {hasLiked ? "Dislike" : "Like"}
         </button>
-        <span>Likes: {likeCount}</span>
+        <span className="text-lg font-semibold">Likes: {likeCount}</span>
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ const MyArtifacts = () => {
     if (!user?.email) return;
 
     axiosSecure
-      .get(`/artifacts?adderEmail=${user.email}`)
+      .get(`/my-artifacts?adderEmail=${user.email}`)
       .then((res) => setMyArtifacts(res.data || []))
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
