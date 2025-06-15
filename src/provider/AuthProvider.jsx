@@ -17,6 +17,7 @@ provider.setCustomParameters({ prompt: "select_account" });
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // ✅ Add loading state
 
   const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -44,6 +45,7 @@ const AuthProvider = ({ children }) => {
       } else {
         localStorage.removeItem("firebase-token");
       }
+      setLoading(false); // ✅ Auth check complete
     });
 
     return () => unsubscribe();
@@ -56,6 +58,7 @@ const AuthProvider = ({ children }) => {
     logOut,
     signIn,
     googleLogin,
+    loading, // ✅ Pass loading to context
   };
 
   return (

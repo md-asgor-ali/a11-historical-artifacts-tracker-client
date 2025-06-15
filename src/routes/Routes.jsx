@@ -30,14 +30,6 @@ const router = createBrowserRouter([
         Component: AddArtifact,
       },
       {
-        path: "artifact/:id",
-        element: (
-          <PrivateRoute>
-            <ArtifactDetails></ArtifactDetails>
-          </PrivateRoute>
-        ),
-      },
-      {
         path: "/artifacts",
         element: <AllArtifacts></AllArtifacts>,
       },
@@ -63,13 +55,15 @@ const router = createBrowserRouter([
       },
       {
         path: "liked-artifacts",
-        Component: LikedArtifacts,
+        element: (
+          <PrivateRoute>
+            <LikedArtifacts></LikedArtifacts>
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-artifacts",
-        element: (
-          <MyArtifacts />
-        ),
+        element: <MyArtifacts />,
       },
       {
         path: "login",
@@ -79,13 +73,13 @@ const router = createBrowserRouter([
         path: "register",
         Component: Register,
       },
-       {
+      {
         path: "blogs",
         element: <Blogs></Blogs>,
       },
     ],
   },
-    {
+  {
     path: "/*",
     Component: ErrorPage,
   },
