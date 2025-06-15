@@ -4,12 +4,27 @@ import Swal from 'sweetalert2';
 import { AuthContext } from '../provider/AuthProvider';
 import logo from "../assets/logo.jpg";
 import { LogOut, Heart, Star } from 'lucide-react';
+import { FaMoon, FaSun } from 'react-icons/fa';
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
   const location = useLocation();
+
+  // Theme state and toggler
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+  const handleThemeToggle = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+  };
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   const handleLogOut = () => {
     logOut()
@@ -32,7 +47,6 @@ const Navbar = () => {
       });
   };
 
-  // Close menu on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -43,7 +57,6 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Close menu on route change
   useEffect(() => {
     setUserMenuOpen(false);
   }, [location]);
@@ -75,20 +88,13 @@ const Navbar = () => {
       <div className="navbar-start">
         <div className="dropdown lg:hidden">
           <label tabIndex={0} className="btn btn-ghost">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </label>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-white rounded-box w-60 z-10"
-          >
+          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-white rounded-box w-60 z-10">
             {navLinks}
           </ul>
         </div>
@@ -102,7 +108,16 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1 space-x-2">{navLinks}</ul>
       </div>
 
-      <div className="navbar-end">
+      <div className="navbar-end flex items-center gap-3">
+        {/* Theme toggle button */}
+        <button
+          onClick={handleThemeToggle}
+          className="btn btn-sm btn-circle bg-gray-200 dark:bg-gray-800 text-black dark:text-white"
+          aria-label="Toggle Theme"
+        >
+          {theme === "light" ? <FaMoon /> : <FaSun />}
+        </button>
+
         {!user ? (
           <Link to="/login" className="btn bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold">
             Login

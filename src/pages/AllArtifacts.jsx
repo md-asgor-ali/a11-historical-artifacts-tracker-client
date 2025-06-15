@@ -77,7 +77,7 @@ const AllArtifacts = () => {
               className="w-full h-48 object-cover"
             />
             <div className="p-4">
-              <h2 className="text-xl font-bold mb-2">{artifact.name}</h2>
+              <h2 className="text-xl text-purple-500 font-bold mb-2">{artifact.name}</h2>
               <p className="text-gray-700 mb-1">
                 <strong>Type:</strong> {artifact.type}
               </p>

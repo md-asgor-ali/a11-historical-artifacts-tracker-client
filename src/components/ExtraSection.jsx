@@ -8,7 +8,7 @@ const ExtraSection = () => {
   return (
     <div className="w-11/12 mx-auto mt-10 rounded-xl flex flex-col justify-center items-center text-center bg-gradient-to-br from-slate-100 via-amber-100 to-emerald-100 p-8 shadow-lg">
       <Fade direction="down" cascade>
-        <h1 className="text-5xl font-extrabold text-emerald-700 mb-4">
+        <h1 className="text-5xl font-extrabold text-purple-500 mb-4">
           Welcome to <span className="text-amber-600">ArtifactVault</span>
         </h1>
       </Fade>
@@ -42,7 +42,7 @@ const ExtraSection = () => {
       </Fade>
 
       <Slide direction="up" delay={500} triggerOnce>
-        <button className="mt-10 px-6 py-3 bg-emerald-600 text-white font-semibold rounded-full shadow-md hover:bg-emerald-700 transition duration-300">
+        <button className="mt-10 px-6 py-3 bg-purple-500 text-white font-semibold rounded-full shadow-md hover:bg-emerald-700 transition duration-300">
           Explore Artifacts
         </button>
       </Slide>
