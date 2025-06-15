@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router';
-import axios from 'axios';
-import Loading from '../components/Loading';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router";
+import axios from "axios";
+import Loading from "../components/Loading";
 
 const AllArtifacts = () => {
   const [artifacts, setArtifacts] = useState([]);
@@ -24,18 +24,21 @@ const AllArtifacts = () => {
       const token = localStorage.getItem("token");
 
       try {
-        const res = await axios.get('http://localhost:5000/artifacts', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            name: debouncedSearch,
-          },
-        });
+        const res = await axios.get(
+          "https://a11-historical-artifacts-tracker-se.vercel.app/artifacts",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              name: debouncedSearch,
+            },
+          }
+        );
 
         setArtifacts(res.data);
       } catch (err) {
-        console.error('Failed to fetch artifacts:', err);
+        console.error("Failed to fetch artifacts:", err);
       } finally {
         setLoading(false);
       }
@@ -75,9 +78,15 @@ const AllArtifacts = () => {
             />
             <div className="p-4">
               <h2 className="text-xl font-bold mb-2">{artifact.name}</h2>
-              <p className="text-gray-700 mb-1"><strong>Type:</strong> {artifact.type}</p>
-              <p className="text-gray-700 mb-1"><strong>Discovered At:</strong> {artifact.discoveredAt}</p>
-              <p className="text-gray-700 mb-2"><strong>Location:</strong> {artifact.location}</p>
+              <p className="text-gray-700 mb-1">
+                <strong>Type:</strong> {artifact.type}
+              </p>
+              <p className="text-gray-700 mb-1">
+                <strong>Discovered At:</strong> {artifact.discoveredAt}
+              </p>
+              <p className="text-gray-700 mb-2">
+                <strong>Location:</strong> {artifact.location}
+              </p>
               <Link
                 to={`/artifacts/${artifact._id}`}
                 className="inline-block bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"

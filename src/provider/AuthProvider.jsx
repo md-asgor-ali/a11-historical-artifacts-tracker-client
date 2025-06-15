@@ -17,7 +17,7 @@ provider.setCustomParameters({ prompt: "select_account" });
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // ✅ Add loading state
+  const [loading, setLoading] = useState(true); 
 
   const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -58,7 +58,7 @@ const AuthProvider = ({ children }) => {
     logOut,
     signIn,
     googleLogin,
-    loading, // ✅ Pass loading to context
+    loading, 
   };
 
   return (

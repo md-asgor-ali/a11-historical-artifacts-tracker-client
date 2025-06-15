@@ -3,7 +3,9 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "../provider/AuthProvider";
 
 const axiosSecure = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000",
+  baseURL:
+    import.meta.env.VITE_API_URL ||
+    "https://a11-historical-artifacts-tracker-se.vercel.app",
 });
 
 const useAxiosSecure = () => {
