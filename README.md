@@ -1,1 +1,1 @@
-<h1>Project Name: Historical Artifacts Tracker </h1>
+<h1 className="text-red">Project Name: Historical Artifacts Tracker </h1>
