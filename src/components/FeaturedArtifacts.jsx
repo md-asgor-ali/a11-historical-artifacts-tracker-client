@@ -29,7 +29,7 @@ const FeaturedArtifacts = () => {
 
   return (
     <div className="w-11/12 mx-auto my-12 bg-gradient-to-br from-purple-50 to-indigo-100 py-5 rounded-xl shadow-md">
-      <h2 className="text-3xl font-bold text-center mb-8">
+      <h2 className="text-3xl text-purple-500 font-bold text-center mb-8">
         🔥 Featured Artifacts
       </h2>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -44,7 +44,7 @@ const FeaturedArtifacts = () => {
               className="w-full h-52 object-cover"
             />
             <div className="p-4">
-              <h3 className="text-xl font-semibold mb-2">{artifact.name}</h3>
+              <h3 className="text-xl text-purple-500 font-semibold mb-2">{artifact.name}</h3>
               <p className="text-gray-600 mb-3">{artifact.shortDesc}</p>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-700">

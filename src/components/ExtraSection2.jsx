@@ -61,7 +61,7 @@ const ExtraSection2 = () => {
             whileHover={{ scale: 1.05, rotate: [-1, 1, -1] }}
             className={`bg-${card.color}-50 p-6 rounded-2xl shadow-md border border-${card.color}-200 hover:shadow-xl transition-all`}
           >
-            <h3 className={`text-2xl font-semibold text-${card.color}-700 mb-3`}>
+            <h3 className={`text-2xl text-purple-500 font-semibold text-${card.color}-700 mb-3`}>
               {card.title}
             </h3>
             <p className="text-gray-600 text-sm leading-relaxed">{card.desc}</p>
