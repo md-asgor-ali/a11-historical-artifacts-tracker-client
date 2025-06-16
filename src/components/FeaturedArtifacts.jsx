@@ -28,7 +28,7 @@ const FeaturedArtifacts = () => {
   }
 
   return (
-    <div className="w-11/12 mx-auto my-12">
+    <div className="w-11/12 mx-auto my-12 bg-gradient-to-br from-purple-50 to-indigo-100 py-5 rounded-xl shadow-md">
       <h2 className="text-3xl font-bold text-center mb-8">
         🔥 Featured Artifacts
       </h2>
@@ -51,7 +51,7 @@ const FeaturedArtifacts = () => {
                   ❤️ {artifact.likeCount || 0} Likes
                 </span>
                 <Link to={`/artifact/${artifact._id}`}>
-                  <button className="btn btn-sm btn-primary">
+                  <button className="btn btn-sm  btn-primary">
                     View Details
                   </button>
                 </Link>
