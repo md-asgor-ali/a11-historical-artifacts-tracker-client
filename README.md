@@ -10,7 +10,7 @@
 
 <h3>Live URL:</h3>
 <p>Firebase: https://historical-artifacts-tra-1d742.web.app/</p>
-<p>Netlify: https://historical-artifacts-tra-1d742.web.app/</p>
+
 
 <h3>Key Features:</h3>
 <p>*User Authentication (Email & Google Login)</p>
