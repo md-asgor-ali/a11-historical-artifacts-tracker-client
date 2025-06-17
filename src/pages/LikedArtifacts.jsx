@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../provider/AuthProvider";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
+import { Helmet } from "react-helmet-async";
 
 const LikedArtifacts = () => {
   const { user } = useContext(AuthContext);
@@ -22,7 +23,7 @@ const LikedArtifacts = () => {
         const res = await axiosSecure.get(`/artifacts?likedBy=${user.email}`);
         setLikedArtifacts(res.data || []);
       } catch (error) {
-        console.error("❌ Failed to fetch liked artifacts:", error);
+        console.error(" Failed to fetch liked artifacts:", error);
         if (error.response?.status === 403 || error.response?.status === 401) {
           navigate("/unauthorized");
         }
@@ -38,6 +39,9 @@ const LikedArtifacts = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-4 mt-10">
+      <Helmet>
+        <title>Liked Artifacts || Historical Artifacts Tracker</title>
+      </Helmet>
       <h2 className="text-3xl font-bold mb-6">Liked Artifacts</h2>
       {likedArtifacts.length === 0 ? (
         <p className="text-gray-600 text-center">
@@ -53,8 +57,12 @@ const LikedArtifacts = () => {
                 className="w-full h-48 object-cover rounded"
               />
               <h3 className="text-xl font-semibold mt-2">{artifact.name}</h3>
-              <p><strong>Type:</strong> {artifact.type}</p>
-              <p><strong>Likes:</strong> {artifact.likeCount || 0}</p>
+              <p>
+                <strong>Type:</strong> {artifact.type}
+              </p>
+              <p>
+                <strong>Likes:</strong> {artifact.likeCount || 0}
+              </p>
               <button
                 onClick={() => navigate(`/artifact/${artifact._id}`)}
                 className="mt-3 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"

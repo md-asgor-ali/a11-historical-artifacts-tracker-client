@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 
 const blogPosts = [
   {
@@ -30,6 +31,9 @@ const blogPosts = [
 const Blogs = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
+      <Helmet>
+        <title>Blogs || Historical Artifacts Tracker</title>
+      </Helmet>
       <h1 className="text-4xl font-bold text-center mb-8 text-blue-700">
         Historical Blogs & Articles
       </h1>

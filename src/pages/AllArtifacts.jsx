@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import axios from "axios";
 import Loading from "../components/Loading";
+import { Helmet } from "react-helmet-async";
 
 const AllArtifacts = () => {
   const [artifacts, setArtifacts] = useState([]);
@@ -53,6 +54,9 @@ const AllArtifacts = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
+      <Helmet>
+        <title>All Artifacts || Historical Artifacts Tracker</title>
+      </Helmet>
       {/* Search Input */}
       <div className="mb-6">
         <input
@@ -77,7 +81,9 @@ const AllArtifacts = () => {
               className="w-full h-48 object-cover"
             />
             <div className="p-4">
-              <h2 className="text-xl text-purple-500 font-bold mb-2">{artifact.name}</h2>
+              <h2 className="text-xl text-purple-500 font-bold mb-2">
+                {artifact.name}
+              </h2>
               <p className="text-gray-700 mb-1">
                 <strong>Type:</strong> {artifact.type}
               </p>

@@ -49,9 +49,9 @@ const CustomerReviews = () => {
               <img
                 src={review.avatar}
                 alt={review.name}
-                className="w-20 h-20 mx-auto rounded-full mb-4 border-4 border-pink-200 shadow"
+                className="w-20 h-20 mx-auto rounded-full mb-4 border-4 border-purple-500 shadow"
               />
-              <h4 className="text-xl font-semibold text-gray-800 mb-1">
+              <h4 className="text-xl text-purple-500 font-semibold  mb-1">
                 {review.name}
               </h4>
               <div className="flex justify-center mb-2">

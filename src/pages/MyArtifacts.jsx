@@ -3,6 +3,7 @@ import { AuthContext } from "../provider/AuthProvider";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const MyArtifacts = () => {
   const axiosSecure = useAxiosSecure();
@@ -46,6 +47,9 @@ const MyArtifacts = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-4 mt-10">
+      <Helmet>
+        <title>My Artifacts || Historical Artifacts Tracker</title>
+      </Helmet>
       <h2 className="text-3xl font-bold mb-6">My Artifacts</h2>
       {myArtifacts.length === 0 ? (
         <p className="text-gray-600 text-center">
