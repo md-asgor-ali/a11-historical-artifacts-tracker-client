@@ -13,7 +13,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gradient-to-br from-purple-100 via-blue-100 to-pink-100 text-gray-800 pt-12 pb-8 px-6 mt-16 shadow-inner rounded-t-3xl">
+    <footer className="bg-blue-100 text-gray-800 pt-12 pb-8 px-6 mt-16 shadow-inner rounded-t-3xl">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
         {/* Branding with logo */}
         <div>

@@ -42,7 +42,7 @@ const LikedArtifacts = () => {
       <Helmet>
         <title>Liked Artifacts || Historical Artifacts Tracker</title>
       </Helmet>
-      <h2 className="text-3xl font-bold mb-6">Liked Artifacts</h2>
+      <h2 className="text-3xl text-purple-500 font-bold mb-6">Liked Artifacts</h2>
       {likedArtifacts.length === 0 ? (
         <p className="text-gray-600 text-center">
           You haven't liked any artifacts yet. Explore and like some!
@@ -56,11 +56,11 @@ const LikedArtifacts = () => {
                 alt={artifact.name}
                 className="w-full h-48 object-cover rounded"
               />
-              <h3 className="text-xl font-semibold mt-2">{artifact.name}</h3>
-              <p>
+              <h3 className="text-xl text-purple-500 font-semibold mt-2">{artifact.name}</h3>
+              <p className="text-purple-500">
                 <strong>Type:</strong> {artifact.type}
               </p>
-              <p>
+              <p className="text-purple-500">
                 <strong>Likes:</strong> {artifact.likeCount || 0}
               </p>
               <button

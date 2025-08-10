@@ -7,14 +7,13 @@ import Loading from "../components/Loading";
 const HomeLayout = () => {
   const { state } = useNavigate();
   return (
-    <div>
-      <header className="w-11/12 mx-auto">
-        {import.meta.env.VITE_name}
+    <div className="">
+      <header className="">
         <Navbar></Navbar>
       </header>
-      <main className="w-11/12 mx-auto">
+      <main className="">
         <div className="min-h-[calc(100vh-280px)]">
-          <div className="max-w-screen-2xl mx-auto px-8">
+          <div className="">
             {state == "loading" ? <Loading></Loading> : <Outlet />}
           </div>
         </div>

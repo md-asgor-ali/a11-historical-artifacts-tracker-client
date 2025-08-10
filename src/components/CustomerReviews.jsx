@@ -30,7 +30,7 @@ const reviews = [
 
 const CustomerReviews = () => {
   return (
-    <section className="bg-gradient-to-r from-purple-50 via-pink-50 to-yellow-50 w-11/12 mx-auto rounded-3xl mt-20 py-16 px-6 sm:px-10">
+    <section className="bg-indigo-100 w-11/12 mx-auto rounded-3xl mt-20 py-16 px-6 sm:px-10">
       <div className="max-w-7xl mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-purple-500 mb-6">
           What Our <span className="text-rose-500">Users Say</span>

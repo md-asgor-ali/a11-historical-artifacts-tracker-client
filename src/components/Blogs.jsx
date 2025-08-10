@@ -34,7 +34,7 @@ const Blogs = () => {
       <Helmet>
         <title>Blogs || Historical Artifacts Tracker</title>
       </Helmet>
-      <h1 className="text-4xl font-bold text-center mb-8 text-blue-700">
+      <h1 className="text-4xl font-bold text-center mb-8 text-purple-500">
         Historical Blogs & Articles
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -49,11 +49,11 @@ const Blogs = () => {
               className="w-full h-48 object-cover"
             />
             <div className="p-4">
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              <h2 className="text-xl font-semibold text-purple-500 mb-2">
                 {post.title}
               </h2>
               <p className="text-gray-600 mb-4">{post.excerpt}</p>
-              <button className="text-blue-600 hover:underline font-medium">
+              <button className="text-purple-500 hover:underline font-medium">
                 Read More →
               </button>
             </div>

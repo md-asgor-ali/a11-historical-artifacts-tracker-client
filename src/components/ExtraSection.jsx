@@ -6,7 +6,7 @@ import "react-tooltip/dist/react-tooltip.css";
 
 const ExtraSection = () => {
   return (
-    <div className="w-11/12 mx-auto mt-10 rounded-xl flex flex-col justify-center items-center text-center bg-gradient-to-br from-purple-50 to-indigo-100 p-8 shadow-lg">
+    <div className="w-11/12 mx-auto mt-10 rounded-xl flex flex-col justify-center items-center text-center bg-indigo-100 p-8 shadow-lg">
       <Fade direction="down" cascade>
         <h1 className="text-5xl font-extrabold text-purple-500 mb-4">
           Welcome to <span className="text-amber-600">ArtifactVault</span>

@@ -38,7 +38,7 @@ const ExtraSection2 = () => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
-      className="bg-gradient-to-br from-purple-50 to-indigo-100 py-16 px-6 rounded-3xl shadow-2xl mt-12 w-11/12 mx-auto"
+      className="bg-indigo-100 py-16 px-6 rounded-3xl shadow-2xl mt-12 w-11/12 mx-auto"
     >
       <h2 className="text-4xl md:text-5xl font-bold text-center text-purple-800 mb-10">
         📜 Why Preserve History?

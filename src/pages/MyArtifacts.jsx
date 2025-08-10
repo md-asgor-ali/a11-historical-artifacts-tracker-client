@@ -50,7 +50,7 @@ const MyArtifacts = () => {
       <Helmet>
         <title>My Artifacts || Historical Artifacts Tracker</title>
       </Helmet>
-      <h2 className="text-3xl font-bold mb-6">My Artifacts</h2>
+      <h2 className="text-3xl text-purple-500 font-bold mb-6">My Artifacts</h2>
       {myArtifacts.length === 0 ? (
         <p className="text-gray-600 text-center">
           You haven’t added any artifacts yet. Start contributing history!
@@ -64,7 +64,7 @@ const MyArtifacts = () => {
                 alt={artifact.name}
                 className="w-full h-48 object-cover rounded"
               />
-              <h3 className="text-xl font-semibold mt-2">{artifact.name}</h3>
+              <h3 className="text-xl text-purple-500  font-semibold mt-2">{artifact.name}</h3>
               <p>
                 <strong>Type:</strong> {artifact.type}
               </p>
