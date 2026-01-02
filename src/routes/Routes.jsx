@@ -13,6 +13,7 @@ import MyArtifacts from "../pages/MyArtifacts";
 import UpdateArtifact from "../pages/UpdateArtifact";
 import ErrorPage from "../pages/ErrorPage";
 import Blogs from "../components/Blogs";
+import axios from "axios";
 
 const router = createBrowserRouter([
   {
@@ -51,7 +52,11 @@ const router = createBrowserRouter([
       },
       {
         path: "all-artifacts",
+        loader: () =>
+          axios("https://a11-historical-artifacts-tracker-se.vercel.app/artifacts"),
         Component: AllArtifacts,
+        hydrateFallbackElement: <Loading></Loading>,
+        
       },
       {
         path: "liked-artifacts",

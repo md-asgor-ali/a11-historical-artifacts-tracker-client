@@ -2,12 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
+import {
+  Tag,
+  ImageIcon,
+  FileText,
+  Calendar,
+  Search,
+  User,
+  MapPin,
+  Upload,
+} from "lucide-react";
 
 const UpdateArtifact = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
-
   const [artifact, setArtifact] = useState(null);
 
   useEffect(() => {
@@ -41,30 +52,171 @@ const UpdateArtifact = () => {
     }
   };
 
-  if (!artifact) return <div className="text-center mt-10">Loading...</div>;
+  if (!artifact)
+    return (
+      <div className="min-h-screen flex items-center justify-center text-amber-400 text-xl font-bold">
+        Loading...
+      </div>
+    );
 
   return (
-    <div className="max-w-xl mx-auto p-4 mt-10">
-      <h2 className="text-2xl font-bold mb-4">Update Artifact</h2>
-      <form onSubmit={handleUpdate} className="space-y-4">
-        <input name="name" defaultValue={artifact.name} className="w-full p-2 border rounded" required />
-        <input name="image" defaultValue={artifact.image} className="w-full p-2 border rounded" required />
-        <select name="type" defaultValue={artifact.type} className="w-full p-2 border rounded" required>
-          <option value="">Select Type</option>
-          <option value="Tools">Tools</option>
-          <option value="Weapons">Weapons</option>
-          <option value="Documents">Documents</option>
-          <option value="Writings">Writings</option>
-        </select>
-        <input name="historicalContext" defaultValue={artifact.historicalContext} className="w-full p-2 border rounded" required />
-        <input name="createdAt" defaultValue={artifact.createdAt} className="w-full p-2 border rounded" required />
-        <input name="discoveredAt" defaultValue={artifact.discoveredAt} className="w-full p-2 border rounded" required />
-        <input name="discoveredBy" defaultValue={artifact.discoveredBy} className="w-full p-2 border rounded" required />
-        <input name="presentLocation" defaultValue={artifact.presentLocation} className="w-full p-2 border rounded" required />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-          Update Artifact
-        </button>
-      </form>
+    <div className="min-h-screen relative overflow-hidden bg-black text-white py-14 px-4">
+      <Helmet>
+        <title>Update Artifact | Historical Artifacts Tracker</title>
+      </Helmet>
+
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-transparent to-amber-600/10"></div>
+
+      <motion.div
+        className="max-w-4xl mx-auto relative z-10"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        {/* Header */}
+        <div className="text-center mb-10">
+          <h1 className="text-4xl font-bold">
+            Update{" "}
+            <span className="bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">
+              Artifact
+            </span>
+          </h1>
+          <p className="text-gray-400 mt-2">
+            Modify artifact information with precision
+          </p>
+        </div>
+
+        {/* Form Card */}
+        <motion.form
+          onSubmit={handleUpdate}
+          className="p-8 rounded-3xl backdrop-blur-xl border border-white/10 shadow-2xl bg-black/70 space-y-6"
+        >
+          {/* Name */}
+          <div>
+            <label className="flex items-center gap-2 text-gray-300 mb-2">
+              <Tag className="h-4 w-4 text-amber-400" /> Artifact Name
+            </label>
+            <input
+              name="name"
+              defaultValue={artifact.name}
+              className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white focus:ring-2 focus:ring-amber-400 outline-none"
+              required
+            />
+          </div>
+
+          {/* Image */}
+          <div>
+            <label className="flex items-center gap-2 text-gray-300 mb-2">
+              <ImageIcon className="h-4 w-4 text-amber-400" /> Image URL
+            </label>
+            <input
+              name="image"
+              defaultValue={artifact.image}
+              className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white focus:ring-2 focus:ring-amber-400 outline-none"
+              required
+            />
+          </div>
+
+          {/* Type */}
+          <div>
+            <label className="flex items-center gap-2 text-gray-300 mb-2">
+              <FileText className="h-4 w-4 text-amber-400" /> Artifact Type
+            </label>
+            <select
+              name="type"
+              defaultValue={artifact.type}
+              className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white focus:ring-2 focus:ring-amber-400 outline-none"
+              required
+            >
+              <option className="bg-black">Tools</option>
+              <option className="bg-black">Weapons</option>
+              <option className="bg-black">Documents</option>
+              <option className="bg-black">Writings</option>
+            </select>
+          </div>
+
+          {/* Historical Context */}
+          <div>
+            <label className="flex items-center gap-2 text-gray-300 mb-2">
+              <Search className="h-4 w-4 text-amber-400" /> Historical Context
+            </label>
+            <input
+              name="historicalContext"
+              defaultValue={artifact.historicalContext}
+              className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white focus:ring-2 focus:ring-amber-400 outline-none"
+              required
+            />
+          </div>
+
+          {/* Dates */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <label className="flex items-center gap-2 text-gray-300 mb-2">
+                <Calendar className="h-4 w-4 text-amber-400" /> Created At
+              </label>
+              <input
+                name="createdAt"
+                defaultValue={artifact.createdAt}
+                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="flex items-center gap-2 text-gray-300 mb-2">
+                <Search className="h-4 w-4 text-amber-400" /> Discovered At
+              </label>
+              <input
+                name="discoveredAt"
+                defaultValue={artifact.discoveredAt}
+                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Discoverer & Location */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <label className="flex items-center gap-2 text-gray-300 mb-2">
+                <User className="h-4 w-4 text-amber-400" /> Discovered By
+              </label>
+              <input
+                name="discoveredBy"
+                defaultValue={artifact.discoveredBy}
+                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="flex items-center gap-2 text-gray-300 mb-2">
+                <MapPin className="h-4 w-4 text-amber-400" /> Present Location
+              </label>
+              <input
+                name="presentLocation"
+                defaultValue={artifact.presentLocation}
+                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Submit */}
+          <div className="pt-6 flex justify-center">
+            <motion.button
+              type="submit"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-3 px-10 py-4 rounded-xl font-bold text-lg bg-gradient-to-r from-amber-500 to-amber-600 text-black shadow-lg hover:from-amber-400 hover:to-amber-500"
+            >
+              <Upload className="h-5 w-5" />
+              Update Artifact
+            </motion.button>
+          </div>
+        </motion.form>
+      </motion.div>
     </div>
   );
 };

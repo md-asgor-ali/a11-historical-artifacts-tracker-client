@@ -1,96 +1,148 @@
 import React from "react";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedinIn,
-  FaArrowUp,
-} from "react-icons/fa";
-import { Link } from "react-router"; // ✅ Correct import
-import logo from "../assets/logo.jpg"; // ✅ Replace with your actual logo path
+import { Mail, MapPin, Facebook, Instagram, Linkedin, Github, } from "lucide-react";
+import { RiTwitterXLine } from "react-icons/ri";
+import logo from "../assets/logo.png"
+import { Link, NavLink } from "react-router";
+
+const socialLinks = [
+  {
+    icon: <RiTwitterXLine className="h-5 w-5" />,
+    name: "Twitter",
+    url: "https://x.com/",
+  },
+  {
+    icon: <Facebook className="h-5 w-5" />,
+    name: "Facebook",
+    url: "https://facebook.com/",
+  },
+  {
+    icon: <Instagram className="h-5 w-5" />,
+    name: "Instagram",
+    url: "https://instagram.com/",
+  },
+  {
+    icon: <Linkedin className="h-5 w-5" />,
+    name: "LinkedIn",
+    url: "https://linkedin.com/",
+  },
+  {
+    icon: <Github className="h-5 w-5" />,
+    name: "GitHub",
+    url: "https://github.com/",
+  },
+];
+
+const navLinks = [
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Artifacts", href: "/all-artifacts" },
+  { name: "Contact", href: "/contact-support" },
+  { name: "Browse Documentation", href: "/browse-documentation" },
+];
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="bg-blue-100 text-gray-800 pt-12 pb-8 px-6 mt-16 shadow-inner rounded-t-3xl">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
-        {/* Branding with logo */}
-        <div>
-          <div className="flex items-center space-x-3 mb-3">
-            <img
-              src={logo}
-              alt="Logo"
-              className="w-12 h-12 rounded-xl shadow-md border border-purple-300"
-            />
-            <h2 className="text-xl font-bold text-purple-700">
-              Historical Artifacts Tracker
-            </h2>
+    <footer className="relative bg-black/80 backdrop-blur-xl border-t border-white/10 text-gray-300">
+      {/* Glass reflection effect */}
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-20 pointer-events-none" />
+      <div className="max-w-7xl mx-auto px-6 py-12 md:py-16 relative z-10">
+        <div className="flex flex-col md:flex-row md:justify-between gap-10">
+          {/* Logo and Description */}
+          <div className="flex-1 flex flex-col gap-3">
+            <div className="flex items-center gap-3">
+              <img
+                src={logo}
+                alt="HistoriVault Logo"
+                className="h-12 w-12 rounded-full object-cover shadow-lg border border-amber-400/30 bg-amber-400/10"
+              />
+              <span className="text-2xl font-extrabold bg-gradient-to-r from-amber-400 via-white to-amber-700 bg-clip-text text-transparent tracking-wider drop-shadow">
+                HistoriVault
+              </span>
+            </div>
+            <p className="text-sm mt-2 max-w-md text-gray-400">
+              Uncover the world's rich history—explore, discover, and preserve historical artifacts with HistoriVault.
+            </p>
+            <div className="flex items-center gap-2 mt-2 text-amber-400">
+              <Mail className="h-4 w-4" />
+              <a href="mailto:support@historivault.com" className="hover:underline text-sm text-amber-400">
+                support@historivault.com
+              </a>
+            </div>
+            <div className="flex items-center gap-2 text-amber-400">
+              <MapPin className="h-4 w-4" />
+              <span className="text-sm">Global Heritage, Online</span>
+            </div>
           </div>
-          <p className="text-sm text-gray-700">
-            Discover, preserve, and celebrate history. Your digital archive of ancient wonders. 🏺
-          </p>
-          <div className="flex space-x-4 mt-4 text-purple-600">
-            <a href="https://facebook.com" target="_blank" rel="noreferrer">
-              <FaFacebookF className="text-xl hover:text-blue-600 transition-transform hover:scale-125" />
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer">
-              <FaTwitter className="text-xl hover:text-sky-500 transition-transform hover:scale-125" />
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer">
-              <FaInstagram className="text-xl hover:text-pink-500 transition-transform hover:scale-125" />
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer">
-              <FaLinkedinIn className="text-xl hover:text-blue-700 transition-transform hover:scale-125" />
-            </a>
+
+          {/* Quick Links */}
+          <div className="flex-1 md:items-center">
+            <h3 className="text-lg font-bold mb-4 text-amber-400">Quick Links</h3>
+            <nav className="flex flex-col gap-2">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.name}
+                  to={link.href}
+                  className={({ isActive }) =>
+                    `hover:text-amber-400 transition-colors duration-200 text-sm ${isActive ? 'text-amber-400' : ''
+                    }`
+                  }
+                >
+                  {link.name}
+                </NavLink>
+              ))}
+            </nav>
+          </div>
+
+          {/* Social & Newsletter */}
+          <div className="flex-1">
+            <h3 className="text-lg font-bold mb-4 text-amber-400">Stay Connected</h3>
+            <div className="flex gap-4 mb-4">
+              {socialLinks.map((social) => (
+                <Link
+                  key={social.name}
+                  to={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.name}
+                  className="p-2 rounded-full hover:bg-amber-400/20 hover:text-amber-400 transition-colors duration-200 border border-transparent hover:border-amber-400/40"
+                >
+                  {social.icon}
+                </Link>
+              ))}
+            </div>
+            <form className="flex items-center gap-2 mb-2">
+              <input
+                type="email"
+                required
+                placeholder="Subscribe for updates"
+                className="w-full px-4 py-2 rounded-full text-sm bg-white/10 border border-white/20 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400/40 backdrop-blur-sm"
+                style={{
+                  backdropFilter: "blur(8px)",
+                  WebkitBackdropFilter: "blur(8px)",
+                }}
+              />
+              <button
+                type="submit"
+                className="px-4 py-2 rounded-full bg-gradient-to-tr from-amber-500 via-amber-400 to-amber-600 text-black font-semibold text-sm shadow hover:from-amber-400 hover:to-amber-500 transition-all duration-200 border border-amber-300/20 hover:scale-105"
+              >
+                Subscribe
+              </button>
+            </form>
+            <span className="text-xs text-gray-500">Join our newsletter for new discoveries!</span>
           </div>
         </div>
 
-        {/* Navigation */}
-        <div>
-          <h4 className="text-lg font-semibold text-purple-700 mb-3">Navigation</h4>
-          <ul className="space-y-2 text-sm text-gray-700">
-            <li><Link to="/" className="hover:text-purple-600">Home</Link></li>
-            <li><Link to="/all-artifacts" className="hover:text-purple-600">All Artifacts</Link></li>
-            <li><Link to="/add-artifact" className="hover:text-purple-600">Add Artifact</Link></li>
-            <li><Link to="/blogs" className="hover:text-purple-600">Blogs</Link></li>
-          </ul>
+        {/* Bottom */}
+        <div className="mt-12 border-t border-white/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <span className="text-xs text-gray-500">
+            &copy; {new Date().getFullYear()} HistoriVault. All rights reserved.
+          </span>
+          <div className="flex gap-2 text-xs text-gray-500">
+            <a href="/privacy" className="hover:text-amber-400 transition-colors">Privacy Policy</a>
+            <span>|</span>
+            <a href="/terms" className="hover:text-amber-400 transition-colors">Terms of Service</a>
+          </div>
         </div>
-
-        {/* Support */}
-        <div>
-          <h4 className="text-lg font-semibold text-purple-700 mb-3">Support</h4>
-          <ul className="space-y-2 text-sm text-gray-700">
-            <li><a href="#" className="hover:text-purple-600">Contact Us</a></li>
-            <li><a href="#" className="hover:text-purple-600">Help Center</a></li>
-            <li><a href="#" className="hover:text-purple-600">Report Issue</a></li>
-            <li><a href="#" className="hover:text-purple-600">Partnerships</a></li>
-          </ul>
-        </div>
-
-        {/* Legal */}
-        <div>
-          <h4 className="text-lg font-semibold text-purple-700 mb-3">Legal</h4>
-          <ul className="space-y-2 text-sm text-gray-700">
-            <li><a href="#" className="hover:text-purple-600">Terms of Use</a></li>
-            <li><a href="#" className="hover:text-purple-600">Privacy Policy</a></li>
-            <li><a href="#" className="hover:text-purple-600">Cookie Policy</a></li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Bottom Section */}
-      <div className="mt-12 border-t pt-6 relative text-center text-sm text-gray-600">
-        <p>
-          &copy; {currentYear} <span className="font-semibold text-purple-600">Historical Artifacts Tracker</span> — All rights reserved.
-        </p>
-        <a
-          href="#top"
-          title="Back to Top"
-          className="absolute right-6 top-2 text-purple-500 hover:text-purple-700 transition transform hover:scale-110"
-        >
-          <FaArrowUp className="text-lg" />
-        </a>
       </div>
     </footer>
   );
