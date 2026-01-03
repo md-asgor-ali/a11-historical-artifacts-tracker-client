@@ -1,7 +1,40 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../provider/AuthProvider";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
+import { Mail, Lock, User, Image } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
+
+/* ---------------- Animated Background ---------------- */
+const AnimatedBackground = () => (
+  <div className="absolute inset-0 overflow-hidden">
+    <motion.div
+      className="absolute w-[420px] h-[420px] bg-amber-500/20 blur-[120px] rounded-full"
+      animate={{ x: [0, 120, -80, 0], y: [0, -100, 80, 0] }}
+      transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+      style={{ top: "10%", left: "5%" }}
+    />
+
+    <motion.div
+      className="absolute w-[520px] h-[520px] bg-zinc-700/30 blur-[150px] rounded-full"
+      animate={{ x: [0, -100, 120, 0], y: [0, 120, -100, 0] }}
+      transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+      style={{ bottom: "5%", right: "10%" }}
+    />
+
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.035)_1px,transparent_0)] bg-[length:18px_18px] opacity-30" />
+  </div>
+);
+
+/* ---------------- Glass Reflection ---------------- */
+const GlassReflection = () => (
+  <div className="absolute inset-0 pointer-events-none">
+    <div className="absolute top-0 left-0 w-full h-2/3 bg-gradient-to-br from-white/10 via-white/0 to-transparent opacity-40 rounded-t-3xl" />
+    <div className="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-white/5 to-transparent opacity-30 rounded-b-3xl" />
+  </div>
+);
 
 const Register = () => {
   const { createUser, setUser, googleLogin } = useContext(AuthContext);
@@ -16,7 +49,6 @@ const Register = () => {
     const photo = form.photo.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(photo)
 
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
     if (!passwordPattern.test(password)) {
@@ -30,8 +62,7 @@ const Register = () => {
 
     createUser(email, password)
       .then((result) => {
-        const user = result.user;
-        setUser(user);
+        setUser(result.user);
         Swal.fire({
           icon: "success",
           title: "Registration Successful",
@@ -68,117 +99,144 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-white/70 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-200 p-8">
-        <h2 className="text-4xl font-bold text-center text-purple-700 mb-6 animate-pulse">
-          Register Now!
-        </h2>
+    <div className="relative min-h-screen bg-zinc-950 flex items-center justify-center px-4 py-20 overflow-hidden">
+      <Helmet>
+        <title>HistoriVault | Register</title>
+      </Helmet>
 
-        <form onSubmit={handleRegister} className="space-y-4">
-          {/* Name */}
-          <div>
-            <label className="label text-gray-700">Name</label>
-            <input
-              type="text"
-              name="name"
-              className="input input-bordered w-full"
-              placeholder="Your name"
-              required
-            />
+      <AnimatedBackground />
+
+      {/* ---------------- Glass Card ---------------- */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.85 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6 }}
+        className="relative z-10 w-full max-w-md bg-zinc-900/60 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl"
+      >
+        <GlassReflection />
+
+        <div className="relative p-8">
+          {/* Header */}
+          <div className="text-center mb-6">
+            <h1 className="text-3xl font-bold text-white mb-1">
+              Create Account
+            </h1>
+            <p className="text-gray-400 text-sm">
+              Join{" "}
+              <span className="text-amber-400 font-semibold">
+                HistoriVault
+              </span>{" "}
+              today
+            </p>
           </div>
 
-          {/* Email */}
-          <div>
-            <label className="label text-gray-700">Email</label>
-            <input
-              type="email"
-              name="email"
-              className="input input-bordered w-full"
-              placeholder="Your email"
-              required
-            />
+          {/* Form */}
+          <form onSubmit={handleRegister} className="space-y-5">
+            {/* Name */}
+            <div>
+              <label className="block text-xs font-semibold text-gray-300 mb-1 ml-1">
+                Name
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400" />
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder="Your name"
+                  className="w-full pl-11 pr-4 py-3 bg-white/10 border border-white/15 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400/40"
+                />
+              </div>
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="block text-xs font-semibold text-gray-300 mb-1 ml-1">
+                Email
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400" />
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="your@email.com"
+                  className="w-full pl-11 pr-4 py-3 bg-white/10 border border-white/15 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400/40"
+                />
+              </div>
+            </div>
+
+            {/* Photo */}
+            <div>
+              <label className="block text-xs font-semibold text-gray-300 mb-1 ml-1">
+                Photo URL
+              </label>
+              <div className="relative">
+                <Image className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400" />
+                <input
+                  type="text"
+                  name="photo"
+                  required
+                  placeholder="Profile picture URL"
+                  className="w-full pl-11 pr-4 py-3 bg-white/10 border border-white/15 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400/40"
+                />
+              </div>
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-xs font-semibold text-gray-300 mb-1 ml-1">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400" />
+                <input
+                  type="password"
+                  name="password"
+                  required
+                  placeholder="Strong password"
+                  className="w-full pl-11 pr-4 py-3 bg-white/10 border border-white/15 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400/40"
+                />
+              </div>
+            </div>
+
+            {/* Register Button */}
+            <button
+              type="submit"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-400 to-amber-600 text-black font-semibold hover:from-amber-300 hover:to-amber-500 transition shadow-lg"
+            >
+              Register
+            </button>
+          </form>
+
+          {/* Divider */}
+          <div className="my-6 flex items-center gap-4">
+            <div className="flex-1 border-t border-gray-700" />
+            <span className="text-gray-400 text-xs">OR</span>
+            <div className="flex-1 border-t border-gray-700" />
           </div>
 
-          {/* Photo URL */}
-          <div>
-            <label className="label text-gray-700">Photo URL</label>
-            <input
-              type="text"
-              name="photo"
-              className="input input-bordered w-full"
-              placeholder="Profile picture URL"
-              required
-            />
-          </div>
-
-          {/* Password */}
-          <div>
-            <label className="label text-gray-700">Password</label>
-            <input
-              type="password"
-              name="password"
-              className="input input-bordered w-full"
-              placeholder="Strong password"
-              required
-            />
-          </div>
-
-          {/* Register Button */}
+          {/* Google */}
           <button
-            type="submit"
-            className="btn btn-primary bg-purple-600 hover:bg-purple-700 w-full text-white"
+            onClick={handleGoogleSignIn}
+            className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-white/10 border border-white/15 text-white hover:bg-white/15 transition"
           >
-            Register
+            <FcGoogle size={22} />
+            <span className="text-sm font-medium">Continue with Google</span>
           </button>
-        </form>
 
-        {/* Divider */}
-        <div className="flex items-center gap-4 my-4">
-          <div className="flex-1 h-px bg-gray-300"></div>
-          <span className="text-sm text-gray-500">or</span>
-          <div className="flex-1 h-px bg-gray-300"></div>
+          {/* Login */}
+          <p className="mt-6 text-center text-xs text-gray-400">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-amber-400 hover:text-amber-300 font-semibold"
+            >
+              Login
+            </Link>
+          </p>
         </div>
-
-        {/* Google Sign-In */}
-        <button
-          onClick={handleGoogleSignIn}
-          className="btn w-full bg-white text-gray-800 border border-gray-300 hover:bg-gray-100"
-        >
-          <svg
-            aria-label="Google logo"
-            width="20"
-            height="20"
-            viewBox="0 0 512 512"
-            className="mr-2"
-          >
-            <path
-              fill="#EA4335"
-              d="M113 309l-15 58-57 1c-22-40-35-86-35-135s13-95 35-135l51 1 22 51c-9 26-13 54-13 83 0 29 4 57 12 83z"
-            />
-            <path
-              fill="#34A853"
-              d="M256 112c35 0 66 12 91 32l68-67C372 33 318 8 256 8c-94 0-174 54-214 133l61 48c26-74 97-127 179-127z"
-            />
-            <path
-              fill="#4A90E2"
-              d="M256 504c62 0 117-24 157-64l-67-54c-25 19-56 30-90 30-82 0-153-53-179-126l-61 48c39 79 120 133 214 133z"
-            />
-            <path
-              fill="#FBBC05"
-              d="M413 219H256v81h89c-12 33-37 58-89 58-53 0-98-36-114-85l-61 48c28 57 88 97 160 97 93 0 168-75 168-168 0-11-1-22-3-32z"
-            />
-          </svg>
-          Continue with Google
-        </button>
-
-        {/* Login Redirect */}
-        <p className="text-center text-sm mt-4 text-gray-600">
-          Already have an account?{" "}
-          <Link to="/login" className="text-purple-600 underline hover:text-purple-800">
-            Login
-          </Link>
-        </p>
-      </div>
+      </motion.div>
     </div>
   );
 };
